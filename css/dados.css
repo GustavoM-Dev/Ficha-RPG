@@ -1,0 +1,74 @@
+/* ==========================================================
+   Bandeja de dados — camada sobre a página onde os dados rolam.
+   Usa os tokens da ficha quando existem (com cores reserva),
+   para poder ser reaproveitada em fichas de outros sistemas.
+   ========================================================== */
+
+.bandeja-dados {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  background: radial-gradient(ellipse at center, rgba(35,31,32,.08), rgba(35,31,32,.32));
+}
+.bandeja-dados--visivel { opacity: 1; pointer-events: auto; cursor: pointer; }
+
+.bandeja-dados__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Texto só para leitores de tela */
+.bandeja-dados__anuncio {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Versão 2D (reduzir movimento / sem WebGL) ---- */
+.bandeja-dados__lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  max-width: min(720px, calc(100vw - 32px));
+}
+.dado-2d {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 76px; height: 76px;
+  background: var(--vermelho, #a8282c);
+  color: var(--papel-claro, #f6f4f0);
+  border: 2px solid var(--vermelho-escuro, #7d1a1e);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  animation: dado-2d-surgir .35s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+.dado-2d--d20, .dado-2d--d12, .dado-2d--d10, .dado-2d--d100 { border-radius: 50%; }
+.dado-2d--d4 { clip-path: polygon(50% 0, 100% 92%, 0 92%); border-radius: 0; padding-top: 18px; }
+.dado-2d__valor {
+  font-family: var(--fonte-titulo, "Cinzel", serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+}
+.dado-2d__tipo { font-size: 11px; letter-spacing: .06em; opacity: .85; }
+.dado-2d--critico { box-shadow: 0 0 0 4px var(--foco, #d9363c), 0 0 26px var(--foco, #d9363c); }
+.dado-2d--falha { background: #6b6461; border-color: #4a4443; }
+
+@keyframes dado-2d-surgir {
+  from { transform: scale(.4) rotate(-25deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dado-2d { animation: none; }
+  .bandeja-dados { transition: none; }
+}

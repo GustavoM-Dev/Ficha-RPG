@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bandeja de Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dados.css">
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+  <style>
+    .demo { max-width: 760px; margin: 0 auto; padding: 32px 16px; display: grid; gap: 22px; }
+    .demo h1 { font-family: var(--fonte-titulo); color: var(--vermelho); }
+    .demo p { color: var(--tinta-suave); line-height: 1.5; }
+    .demo__grupo { display: flex; flex-wrap: wrap; gap: 10px; }
+    .demo button {
+      padding: 8px 16px; border: var(--borda); border-radius: var(--raio);
+      background: var(--branco); font-family: var(--fonte-titulo); font-weight: 700; cursor: pointer;
+    }
+    .demo button:hover { color: var(--vermelho); }
+    .demo output { font-size: 18px; font-weight: 700; min-height: 1.5em; }
+  </style>
+</head>
+<body>
+<main class="demo">
+  <h1>Bandeja de dados</h1>
+  <p>Página de teste da animação. Os valores aqui são sorteados só para a demonstração;
+     na ficha eles virão da lógica de rolagem. Clique na bandeja para acelerar ou fechar.</p>
+
+  <div class="demo__grupo">
+    <button data-lados="4">d4</button>
+    <button data-lados="6">d6</button>
+    <button data-lados="8">d8</button>
+    <button data-lados="10">d10</button>
+    <button data-lados="12">d12</button>
+    <button data-lados="20">d20</button>
+    <button data-lados="100">d%</button>
+  </div>
+  <div class="demo__grupo">
+    <button id="critico">Ataque crítico (20 natural, 19/x2 → 2d6)</button>
+    <button id="falha">Falha (1 natural)</button>
+    <button id="muitos">Bola de fogo (6d6)</button>
+  </div>
+  <output id="resultado" aria-hidden="true"></output>
+</main>
+
+<script type="module">
+  import { BandejaDeDados } from './js/dados/BandejaDeDados.js';
+
+  const bandeja = new BandejaDeDados();
+  const resultado = document.querySelector('#resultado');
+  const sortear = lados => 1 + Math.floor(Math.random() * lados);   // só para a demo
+  const dados = (qtd, lados) => Array.from({ length: qtd }, () => ({ lados, valor: sortear(lados) }));
+
+  async function mostrar(lista, texto) {
+    resultado.textContent = '';
+    await bandeja.rolar(lista);
+    resultado.textContent = texto(lista);
+  }
+  const soma = lista => lista.reduce((s, d) => s + d.valor, 0);
+
+  document.querySelectorAll('[data-lados]').forEach(botao => botao.addEventListener('click', () => {
+    const lados = Number(botao.dataset.lados);
+    mostrar(dados(1, lados), ([d]) => `${botao.textContent}: ${d.valor}`);
+  }));
+
+  document.querySelector('#critico').addEventListener('click', () => {
+    const dano = dados(2, 6);
+    mostrar([{ lados: 20, valor: 20, destaque: 'critico' }, ...dano],
+      () => `d20 (20) + 7 = 27 — CRÍTICO! Dano: 2d6 (${dano.map(d => d.valor).join(', ')}) + 3 = ${soma(dano) + 3}`);
+  });
+  document.querySelector('#falha').addEventListener('click', () => {
+    mostrar([{ lados: 20, valor: 1, destaque: 'falha' }], () => 'd20 (1) — falha!');
+  });
+  document.querySelector('#muitos').addEventListener('click', () => {
+    mostrar(dados(6, 6), lista => `6d6: ${lista.map(d => d.valor).join(' + ')} = ${soma(lista)}`);
+  });
+</script>
+</body>
+</html>

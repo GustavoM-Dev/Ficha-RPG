@@ -1,0 +1,932 @@
+/* ==========================================================
+   Ficha T20 — estilos (somente visual; nenhuma lógica aqui)
+   Organização:
+   1. Tokens (cores, fontes, tamanhos)
+   2. Base / reset
+   3. Componentes genéricos (painel, títulos, campos)
+   4. Blocos da página 1
+   5. Blocos da página 2
+   6. Layout desktop (grid)
+   7. Responsivo (tablet / celular)
+   ========================================================== */
+
+/* 1. TOKENS ------------------------------------------------ */
+:root {
+  --papel: #ebe7e0;
+  --papel-claro: #f6f4f0;
+  --branco: #ffffff;
+  --tinta: #231f20;
+  --tinta-suave: #5a5352;
+  --linha: #b9b2ad;
+  --vermelho: #a8282c;
+  --vermelho-escuro: #7d1a1e;
+  --foco: #d9363c;
+
+  --fonte-titulo: "Cinzel", "Times New Roman", serif;
+  --fonte-texto: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+
+  --borda: 2.5px solid var(--tinta);
+  --raio: 6px;
+  --gap: 14px;
+
+  /* Contorno "rasgado" das pinceladas vermelhas */
+  --pincel: polygon(0.0% 10%, 2.5% 5%, 5.0% 20%, 7.5% 2%, 10.0% 16%, 12.5% 11%, 15.0% 2%, 17.5% 15%, 20.0% 1%, 22.5% 13%, 25.0% 2%, 27.5% 3%, 30.0% 13%, 32.5% 25%, 35.0% 4%, 37.5% 7%, 40.0% 19%, 42.5% 28%, 45.0% 17%, 47.5% 12%, 50.0% 29%, 52.5% 1%, 55.0% 26%, 57.5% 9%, 60.0% 4%, 62.5% 4%, 65.0% 9%, 67.5% 24%, 70.0% 5%, 72.5% 17%, 75.0% 19%, 77.5% 11%, 80.0% 16%, 82.5% 2%, 85.0% 2%, 87.5% 6%, 90.0% 20%, 92.5% 13%, 95.0% 9%, 97.5% 18%, 100.0% 14%, 100.0% 79%, 97.5% 94%, 95.0% 91%, 92.5% 77%, 90.0% 87%, 87.5% 86%, 85.0% 96%, 82.5% 92%, 80.0% 79%, 77.5% 99%, 75.0% 74%, 72.5% 83%, 70.0% 93%, 67.5% 75%, 65.0% 85%, 62.5% 71%, 60.0% 90%, 57.5% 93%, 55.0% 87%, 52.5% 96%, 50.0% 79%, 47.5% 91%, 45.0% 88%, 42.5% 87%, 40.0% 84%, 37.5% 95%, 35.0% 98%, 32.5% 84%, 30.0% 90%, 27.5% 72%, 25.0% 91%, 22.5% 89%, 20.0% 100%, 17.5% 95%, 15.0% 79%, 12.5% 82%, 10.0% 90%, 7.5% 71%, 5.0% 84%, 2.5% 75%, 0.0% 74%);
+}
+
+/* 2. BASE -------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--fonte-texto);
+  font-size: 15px;
+  color: var(--tinta);
+  background-color: var(--papel);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,.55), transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(255,255,255,.45), transparent 45%),
+    radial-gradient(circle at 50% 110%, rgba(120,100,90,.12), transparent 50%);
+  background-attachment: fixed;
+}
+
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, p { margin: 0; }
+
+input, select, textarea, button, output {
+  font: inherit;
+  color: inherit;
+}
+
+input, select, textarea {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; text-align: center; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+input[type="checkbox"] {
+  width: 16px; height: 16px;
+  margin: 0;
+  accent-color: var(--vermelho);
+  cursor: pointer;
+}
+
+select {
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  padding: 8px 10px;
+  line-height: 1.5;
+  /* linhas pautadas como no papel */
+  background-image: repeating-linear-gradient(to bottom, transparent 0 calc(1.5em - 1px), var(--linha) calc(1.5em - 1px) 1.5em);
+  background-position: 0 8px;
+  background-attachment: local;
+}
+
+:focus-visible { outline: 2px solid var(--foco); outline-offset: 1px; }
+input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, .06); }
+
+/* 3. COMPONENTES GENÉRICOS -------------------------------- */
+.ficha {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: grid;
+  gap: 32px;
+}
+
+.pagina {
+  isolation: isolate;               /* mantém as pinceladas vermelhas atrás dos painéis */
+  display: grid;
+  gap: var(--gap);
+  padding: 28px;
+  background: var(--papel-claro);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 30px rgba(60,40,30,.12);
+}
+
+.painel {
+  position: relative;
+  background: var(--branco);
+  border: var(--borda);
+  border-radius: var(--raio);
+  padding: 10px 12px;
+}
+
+/* Pincelada vermelha que "vaza" por baixo do painel */
+.faixa { position: relative; }
+.faixa::after {
+  content: "";
+  position: absolute;
+  left: -6px; right: -6px; bottom: -9px;
+  height: 16px;
+  background: var(--vermelho);
+  clip-path: var(--pincel);
+  z-index: -1;
+}
+
+.painel__titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.painel__titulo--centro { text-align: center; margin-bottom: 4px; }
+
+/* Título em "aba" sobre a borda superior (Equipamento, Magias, Anotações) */
+.painel__titulo--aba {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -55%);
+  background: var(--branco);
+  border: var(--borda);
+  border-radius: 4px;
+  padding: 2px 18px;
+  font-size: 15px;
+}
+.painel:has(> .painel__titulo--aba)::before {   /* pincelada atrás da aba */
+  content: "";
+  position: absolute;
+  top: -9px; left: 50%;
+  width: min(320px, 80%);
+  transform: translateX(-50%);
+  height: 12px;
+  background: var(--vermelho);
+  clip-path: var(--pincel);
+  z-index: -1;
+}
+.painel:has(.painel__titulo--aba) { padding-top: 22px; margin-top: 12px; }
+
+.mini-rotulo {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.15;
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.sinal { color: var(--tinta-suave); text-align: center; font-size: 13px; }
+
+/* Valores calculados pelo JS (somente leitura) */
+.campo-calc {
+  display: inline-block;
+  min-width: 2.2em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Botões de rolagem: parecem texto, mas são clicáveis */
+.btn-rolar {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color .15s;
+}
+.btn-rolar:hover { color: var(--vermelho); }
+.btn-icone {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  font-size: 16px;
+  filter: grayscale(1);
+  transition: filter .15s, background .15s;
+}
+.btn-icone:hover { filter: none; background: rgba(168,40,44,.08); }
+
+/* Janela flutuante (popover nativo do HTML: abre e fecha sem JS) */
+.janela {
+  width: min(320px, calc(100vw - 32px));
+  padding: 18px 18px 14px;
+  border: var(--borda);
+  border-radius: var(--raio);
+  background: var(--branco);
+  color: var(--tinta);
+  box-shadow: 0 10px 40px rgba(35,31,32,.25);
+}
+.janela:popover-open { display: grid; gap: 12px; }
+.janela::backdrop { background: rgba(35,31,32,.25); }
+.janela__titulo {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.janela__campo { display: grid; gap: 3px; }
+.janela__campo .mini-rotulo { text-align: left; }
+.janela__campo select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+  background: var(--branco);
+}
+.janela__opcao { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.janela__dica { font-size: 12.5px; color: var(--tinta-suave); line-height: 1.35; }
+.janela__ok {
+  justify-self: end;
+  padding: 5px 18px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--vermelho);
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.janela__ok:hover { background: var(--vermelho-escuro); }
+
+/* Linhas de tabela (Ataques, Magias) */
+.tabela-cabecalho {
+  display: grid;
+  align-items: end;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--tinta-suave);
+  text-align: center;
+  padding-bottom: 2px;
+}
+.linha-tabela { display: grid; gap: 6px; align-items: end; }
+.celula { display: block; min-width: 0; }
+.celula input {
+  width: 100%;
+  padding: 6px 4px 3px;
+  border-bottom: 1px solid var(--linha);
+}
+
+/* 4. PÁGINA 1 ---------------------------------------------- */
+
+/* Identificação */
+.identificacao { display: grid; gap: 12px; }
+.identificacao__topo {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+.identificacao__titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--vermelho);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 var(--tinta), 2px 2px 0 rgba(0,0,0,.12);
+  white-space: nowrap;
+}
+.identificacao__titulo span { font-size: .6em; vertical-align: super; margin-left: 2px; }
+
+.identificacao__linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr 1fr;
+  gap: 12px;
+}
+
+.campo { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.campo input, .campo select {
+  width: 100%;
+  background-color: var(--branco);
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+/* Listas suspensas da identificação (Raça, Origem, Classe, Divindade) */
+.campo select {
+  appearance: none;
+  padding-right: 28px;
+  text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23a8282c' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-size: 12px 8px;
+}
+.campo select:disabled { color: var(--tinta-suave); background-color: var(--papel-claro); cursor: not-allowed; }
+.campo__rotulo {
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  padding-left: 4px;
+}
+.campo--destaque input {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 22px;
+  padding: 8px 12px;
+  border-width: 2.5px;
+}
+.campo--personagem { position: relative; }
+.campo--personagem .campo__rotulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  color: var(--tinta);
+}
+.campo--personagem::after {        /* pincelada sob o nome */
+  content: "";
+  position: absolute;
+  left: 0; right: -14px; bottom: 0;
+  height: 22px;
+  background: var(--vermelho);
+  clip-path: var(--pincel);
+  z-index: -1;
+}
+.campo--personagem .campo__rotulo { color: var(--branco); position: relative; }
+
+.campo__grupo {
+  display: grid;
+  grid-template-columns: 1fr 52px;
+  background: var(--branco);
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+}
+.campo__grupo input, .campo__grupo select { border: 0; border-radius: 0; }
+.campo__grupo select + input { border-left: 1px solid var(--linha); text-align: center; color: var(--vermelho-escuro); font-weight: 700; }
+
+/* Atributos */
+.atributos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  padding: 12px 0 6px;
+}
+.atributos::after {                 /* faixa vermelha atravessando os atributos */
+  left: 0; right: 0;
+  top: 32%; bottom: auto;
+  height: 38%;
+}
+.atributo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--branco);
+  border: var(--borda);
+  border-radius: 10px 10px 18px 18px;
+  padding: 18px 6px 24px;
+  margin-bottom: 14px;
+}
+.atributo__nome {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--branco);
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .05em;
+}
+.atributo__mod {
+  font-family: var(--fonte-titulo);
+  font-weight: 900;
+  font-size: 34px;
+  line-height: 1.1;
+}
+.atributo__valor {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translate(-50%, 50%);
+  width: 52px; height: 34px;
+  background: var(--branco);
+  border: 2px solid var(--tinta);
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* Pontos de Vida / Mana */
+.recursos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+.recursos::after { display: none; }
+.recurso {
+  position: relative;
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 8px;
+  background: var(--branco);
+  border: var(--borda);
+  border-radius: var(--raio);
+  padding: 22px 10px 8px;
+}
+.recurso::after {
+  content: "";
+  position: absolute;
+  left: -6px; right: -6px; bottom: -9px;
+  height: 16px;
+  background: var(--vermelho);
+  clip-path: var(--pincel);
+  z-index: -1;
+}
+.recurso__titulo {
+  position: absolute;
+  top: 0; left: 92px;
+  transform: translateY(-50%);
+  background: var(--branco);
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.recurso label { display: flex; flex-direction: column; gap: 2px; }
+.recurso label span { font-size: 11.5px; color: var(--tinta-suave); text-align: center; }
+.recurso input {
+  width: 100%;
+  height: 54px;
+  border: 1.5px solid var(--tinta);
+  border-radius: 4px;
+  font-family: var(--fonte-titulo);
+  font-size: 26px;
+  font-weight: 700;
+}
+.recurso__atual input { color: var(--vermelho-escuro); }
+
+/* Ataques */
+.ataques { display: flex; flex-direction: column; }
+.ataques__cabecalho,
+.ataque {
+  grid-template-columns: 2fr 1fr 1.3fr .8fr .8fr .9fr 30px;
+}
+.ataques__cabecalho .painel__titulo { text-align: left; color: var(--tinta); font-size: 15px; }
+.ataques__lista { display: grid; gap: 2px; align-content: start; flex: 1; }
+
+/* Dano: só os dados no campo + botão que abre a janela do modificador */
+.dano {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 4px;
+  border-bottom: 1px solid var(--linha);
+}
+.dano .ataque__dano { border-bottom: 0; }
+.dano__mod {
+  margin-bottom: 3px;
+  padding: 1px 7px;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  background: var(--papel-claro);
+  color: var(--vermelho-escuro);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.dano__mod:hover { border-color: var(--vermelho); }
+/* O rótulo do botão espelha o atributo escolhido na janela */
+.ataque:has(.ataque__dano-atributo [value="for"]:checked) .dano__mod::before { content: "+For"; }
+.ataque:has(.ataque__dano-atributo [value="des"]:checked) .dano__mod::before { content: "+Des"; }
+.ataque:has(.ataque__dano-atributo [value="con"]:checked) .dano__mod::before { content: "+Con"; }
+.ataque:has(.ataque__dano-atributo [value="int"]:checked) .dano__mod::before { content: "+Int"; }
+.ataque:has(.ataque__dano-atributo [value="sab"]:checked) .dano__mod::before { content: "+Sab"; }
+.ataque:has(.ataque__dano-atributo [value="car"]:checked) .dano__mod::before { content: "+Car"; }
+.ataque:has(.ataque__dano-usar:not(:checked)) .dano__mod { color: var(--tinta-suave); text-decoration: line-through; }
+
+/* Defesa */
+.defesa {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--branco);
+  border: var(--borda);
+  border-radius: var(--raio);
+}
+.defesa__escudo {
+  flex: 0 0 104px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px 20px;
+  background: var(--vermelho);
+  color: var(--tinta);
+  clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
+  margin: -2px 0 -2px -2px;
+  border-top-left-radius: var(--raio);
+}
+.defesa__escudo::before {            /* interior branco do escudo */
+  content: "";
+  position: absolute;
+  inset: 6px 10px 12px;
+  background: var(--branco);
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%);
+  z-index: 0;
+}
+.defesa__titulo, .defesa__total { position: relative; z-index: 1; }
+.defesa__titulo { font-family: var(--fonte-titulo); font-weight: 700; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.defesa__total { font-family: var(--fonte-titulo); font-weight: 900; font-size: 38px; line-height: 1.05; }
+
+.defesa__conta {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  column-gap: 10px;
+  padding: 8px 12px 8px 10px;
+  min-width: 0;
+}
+.defesa__base {
+  grid-row: 1 / 3;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 18px;
+  border: 2px solid var(--tinta);
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+}
+.defesa__termos {
+  display: grid;
+  grid-template-columns: 1.3fr auto 1fr auto 1fr auto 1fr;
+  align-items: end;
+  gap: 4px;
+}
+.defesa__termo { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.defesa__termo .mini-rotulo { display: flex; align-items: center; gap: 4px; justify-content: center; }
+.defesa__termo input[type="number"], .defesa__termo output, .defesa__termo select {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--linha);
+  padding: 3px 0;
+}
+.defesa__termos .sinal { padding-bottom: 4px; }
+.defesa__penalidade {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.defesa__penalidade output { border-bottom: 1px solid var(--linha); min-width: 70px; }
+
+/* Proficiências */
+.proficiencias { display: flex; flex-direction: column; }
+.proficiencias textarea { flex: 1; min-height: 110px; }
+
+/* Armadura & Escudo */
+.equipamento-defesa__cabecalho,
+.protecao { display: grid; grid-template-columns: 1fr 76px 76px; gap: 8px; }
+.equipamento-defesa__cabecalho .painel__titulo { text-align: left; color: var(--tinta); font-size: 12.5px; }
+.protecao { margin-top: 6px; }
+.protecao input { border-bottom: 1px solid var(--linha); padding: 5px 4px 3px; width: 100%; }
+.protecao input::placeholder { color: #a9a29e; }
+
+/* Tamanho */
+.tamanho {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tamanho .painel__titulo { font-size: 12.5px; }
+.tamanho select {
+  flex: 1;
+  font-size: 18px;
+  border-bottom: 1px solid var(--linha);
+  min-width: 90px;
+}
+.tamanho__mods {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid var(--tinta);
+  border-radius: 10px;
+  padding: 4px 12px;
+  font-size: 18px;
+}
+
+/* XP / Deslocamento */
+.linha-simples label { display: flex; align-items: center; gap: 10px; }
+.linha-simples .painel__titulo { font-size: 12.5px; }
+.linha-simples input { flex: 1; border-bottom: 1px solid var(--linha); padding: 4px; text-align: left; }
+
+/* Perícias */
+.pericias { padding: 10px 10px 6px; }
+.pericias__cabecalho,
+.pericia {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 38px 10px 30px 10px 54px 10px 30px 10px 36px;
+  align-items: center;
+  column-gap: 2px;
+}
+.pericias__cabecalho {
+  font-size: 10.5px;
+  line-height: 1.1;
+  color: var(--tinta-suave);
+  text-align: center;
+  align-items: end;
+  padding-bottom: 6px;
+}
+.pericias__cabecalho .painel__titulo {
+  grid-column: 1 / 3;
+  text-align: left;
+  font-size: 18px;
+  color: var(--tinta);
+}
+.pericia { padding: 2px 0; border-bottom: 1px dotted rgba(0,0,0,.08); }
+.pericia__nome {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  padding-left: 4px;
+  font-variant: small-caps;
+  font-size: 15px;
+  letter-spacing: .02em;
+  min-width: 0;
+  white-space: nowrap;
+}
+.pericia__nome--oficio { gap: 4px; }
+.pericia__especialidade {
+  flex: 1;
+  min-width: 30px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--linha);
+  font-variant: normal;
+}
+.marca { color: var(--vermelho); font-size: 10px; }
+.pericia__total {
+  border: 2px solid var(--tinta);
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 0;
+  padding: 1px 0;
+}
+.pericia__meio-nivel, .pericia__treino { min-width: 0; border-bottom: 1px solid var(--linha); }
+.pericia__atributo { font-size: 13.5px; border-bottom: 1px solid var(--linha); width: 100%; }
+.pericia__outros { width: 100%; border-bottom: 1px solid var(--linha); padding: 1px 0; }
+.pericia:has(.pericia__treinada:checked) .pericia__nome { font-weight: 700; }
+.pericias__legenda {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--tinta-suave);
+  margin-top: 6px;
+}
+
+/* Equipamento */
+.equipamento__colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.equipamento__cabecalho,
+.item { display: grid; grid-template-columns: 1fr 80px; gap: 10px; }
+.equipamento__cabecalho { font-size: 11.5px; color: var(--tinta-suave); }
+.equipamento__cabecalho span:last-child { text-align: right; padding-right: 6px; }
+.item input { border-bottom: 1px solid var(--linha); padding: 6px 4px 3px; width: 100%; }
+.item__peso { text-align: right !important; padding-right: 6px !important; }
+.equipamento__aviso { font-size: 11px; color: var(--tinta-suave); margin: 12px 0 8px; line-height: 1.35; }
+.equipamento__rodape {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 18px;
+  align-items: end;
+}
+.carga { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.carga__valores {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: 19px;
+  border-bottom: 1px solid var(--linha);
+  padding: 0 4px;
+}
+.carga__valores small { font-size: 11px; color: var(--tinta-suave); }
+.dinheiro { display: grid; gap: 6px; }
+.dinheiro label { display: grid; grid-template-columns: 34px 1fr; align-items: center; font-weight: 700; }
+.dinheiro input { border-bottom: 1px solid var(--linha); text-align: left; padding: 3px 4px; }
+
+/* 5. PÁGINA 2 ---------------------------------------------- */
+.descricao, .hab-raca, .hab-classe { display: flex; flex-direction: column; }
+.descricao textarea, .hab-raca textarea, .hab-classe textarea { flex: 1; }
+
+.magias__config {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 18px;
+  margin-bottom: 14px;
+}
+.magias__config label { display: flex; align-items: end; gap: 8px; }
+.magias__config .mini-rotulo { font-weight: 700; color: var(--tinta); text-transform: uppercase; font-size: 11px; }
+.magias__config select, .magias__config output {
+  min-width: 64px;
+  text-align: center;
+  border-bottom: 1px solid var(--tinta);
+  color: var(--vermelho-escuro);
+  font-weight: 700;
+  font-size: 17px;
+}
+.magias__formula { font-size: 11px; color: var(--tinta-suave); }
+.magias__cabecalho,
+.magia { grid-template-columns: 1.6fr 1fr 1fr 1fr .8fr 1fr 1fr 1.6fr; }
+.magias__lista { display: grid; gap: 2px; }
+
+.anotacoes__dica { text-align: center; font-size: 12px; color: var(--tinta-suave); margin-bottom: 4px; }
+.anotacoes textarea { min-height: 220px; }
+
+/* 6. LAYOUT DESKTOP --------------------------------------- */
+.pagina--1 {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) minmax(400px, 430px);
+  grid-template-rows: auto auto auto 1fr auto auto auto auto;
+  grid-template-areas:
+    "id   id   id   id   id   id   id"
+    "atr  atr  atr  atr  atr  atr  per"
+    "rec  rec  rec  rec  rec  rec  per"
+    "atq  atq  atq  atq  atq  atq  per"
+    "def  def  def  def  prof prof per"
+    "arm  arm  arm  arm  tam  tam  per"
+    "xp   xp   xp   des  des  des  per"
+    "eq   eq   eq   eq   eq   eq   eq";
+  column-gap: 18px;
+  row-gap: 18px;
+}
+.identificacao       { grid-area: id; }
+.atributos           { grid-area: atr; }
+.recursos            { grid-area: rec; }
+.ataques             { grid-area: atq; }
+.defesa              { grid-area: def; }
+.proficiencias       { grid-area: prof; }
+.equipamento-defesa  { grid-area: arm; }
+.tamanho             { grid-area: tam; }
+.xp                  { grid-area: xp; }
+.deslocamento        { grid-area: des; }
+.pericias            { grid-area: per; }
+.equipamento         { grid-area: eq; }
+
+.pagina--2 {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr);
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "desc   mag"
+    "raca   mag"
+    "classe mag"
+    "classe anot";
+  column-gap: 20px;
+  row-gap: 22px;
+}
+.descricao  { grid-area: desc; }
+.hab-raca   { grid-area: raca; }
+.hab-classe { grid-area: classe; }
+.magias     { grid-area: mag; }
+.anotacoes  { grid-area: anot; }
+
+/* 7. RESPONSIVO ------------------------------------------- */
+
+/* Tablet: perícias saem da lateral e ganham 2 colunas */
+@media (max-width: 1100px) {
+  .pagina--1 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: auto;
+    grid-template-areas:
+      "id   id   id   id   id   id"
+      "atr  atr  atr  atr  atr  atr"
+      "rec  rec  rec  rec  rec  rec"
+      "def  def  def  def  prof prof"
+      "atq  atq  atq  atq  atq  atq"
+      "arm  arm  arm  arm  tam  tam"
+      "xp   xp   xp   des  des  des"
+      "per  per  per  per  per  per"
+      "eq   eq   eq   eq   eq   eq";
+  }
+  .pericias__lista { columns: 2; column-gap: 26px; }
+  .pericia { break-inside: avoid; }
+  .pericias__cabecalho { display: none; }          /* cabeçalho não acompanha 2 colunas */
+  .pericias::before {
+    content: "Perícias";
+    display: block;
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .identificacao__titulo { font-size: 32px; }
+}
+
+@media (max-width: 860px) {
+  .pagina { padding: 22px 16px; }
+  .pericias__lista { columns: 1; }
+  .pericias__cabecalho { display: grid; }
+  .pericias::before { display: none; }
+
+  .identificacao__topo { grid-template-columns: 1fr 1fr; }
+  .identificacao__titulo { grid-column: 1 / -1; grid-row: 1; text-align: center; }
+  .identificacao__linha { grid-template-columns: 1fr 1fr; }
+
+  .pagina--2 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: "desc" "raca" "classe" "mag" "anot";
+  }
+
+  /* Tabelas viram "cartões" com rótulo em cada campo */
+  .ataques__cabecalho span, .magias__cabecalho { display: none; }
+  .ataques__lista, .magias__lista { gap: 10px; }
+  .ataque, .magia {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding: 8px;
+    border: 1px solid var(--linha);
+    border-radius: 6px;
+    background: #fbfaf8;
+  }
+  .celula::before {
+    content: attr(data-rotulo);
+    display: block;
+    font-size: 10.5px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .ataque .celula--nome { grid-column: 1 / 6; }
+  .ataque .ataque__rolar { grid-column: 6; justify-self: end; }
+  .ataque .celula--teste, .ataque .celula--dano { grid-column: span 3; }
+  .ataque .celula--critico, .ataque .celula--tipo, .ataque .celula--alcance { grid-column: span 2; }
+
+  .magia .celula--nome { grid-column: 1 / -1; }
+  .magia .celula--escola, .magia .celula--execucao, .magia .celula--alcance { grid-column: span 2; }
+  .magia .celula--area, .magia .celula--duracao, .magia .celula--resistencia { grid-column: span 2; }
+  .magia .celula--efeito { grid-column: 1 / -1; }
+
+  .equipamento__colunas { grid-template-columns: 1fr; gap: 0; }
+  .equipamento__coluna + .equipamento__coluna .equipamento__cabecalho { display: none; }
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  body { font-size: 14px; }
+  .ficha { padding: 12px 8px 28px; gap: 20px; }
+  .pagina { padding: 18px 12px; row-gap: 20px; }
+
+  .pagina--1 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "id" "atr" "rec" "def" "atq" "arm" "tam" "xp" "des" "prof" "per" "eq";
+  }
+
+  .identificacao__titulo { font-size: 28px; }
+  .identificacao__topo, .identificacao__linha { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .campo--personagem { grid-column: 1 / -1; }
+  .campo--jogador { grid-column: 1 / -1; }
+
+  .atributos { grid-template-columns: repeat(3, 1fr); row-gap: 26px; }
+  .atributos::after { top: 14%; height: 72%; }
+
+  .recursos { grid-template-columns: 1fr; row-gap: 26px; }
+
+  .defesa { flex-direction: column; }
+  .defesa__escudo {
+    flex-basis: auto;
+    flex-direction: row;
+    gap: 14px;
+    clip-path: none;
+    margin: -2px -2px 0;
+    border-radius: var(--raio) var(--raio) 0 0;
+    padding: 8px;
+  }
+  .defesa__escudo::before { inset: 4px; clip-path: none; border-radius: 3px; }
+  .defesa__conta { grid-template-columns: 1fr; padding: 10px; row-gap: 8px; }
+  .defesa__base { grid-row: auto; justify-self: center; }
+  .defesa__termos { grid-template-columns: 1.3fr auto 1fr auto 1fr auto 1fr; }
+  .defesa__penalidade { justify-content: space-between; }
+
+  /* Perícias compactas */
+  .pericias { padding: 10px 6px 6px; }
+  .pericias__cabecalho,
+  .pericia { grid-template-columns: 18px minmax(0, 1fr) 34px 0 26px 0 46px 0 26px 0 32px; column-gap: 3px; }
+  .pericia .sinal, .pericias__cabecalho span:empty { visibility: hidden; font-size: 0; }
+  .pericia__nome { font-size: 14px; }
+  .pericia__atributo { font-size: 12.5px; }
+  .pericias__cabecalho { font-size: 9.5px; }
+  .pericias__cabecalho .painel__titulo { font-size: 16px; }
+
+  .equipamento__rodape { grid-template-columns: 1fr 1fr; }
+  .dinheiro { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+}

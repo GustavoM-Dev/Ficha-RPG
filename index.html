@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha de Personagem — T20</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dados.css">
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+</head>
+<body>
+<main class="ficha" id="ficha">
+
+  <!-- ===================== PÁGINA 1 ===================== -->
+  <section class="pagina pagina--1" aria-label="Página 1">
+
+    <!-- Identificação -->
+    <header class="identificacao">
+      <div class="identificacao__topo">
+        <label class="campo campo--destaque campo--personagem">
+          <input id="nome-personagem" type="text" aria-label="Nome do personagem">
+          <span class="campo__rotulo">Personagem</span>
+        </label>
+        <label class="campo campo--jogador">
+          <span class="campo__rotulo">Jogador</span>
+          <input id="nome-jogador" type="text">
+        </label>
+        <h1 class="identificacao__titulo">Tormenta<span>20</span></h1>
+      </div>
+      <div class="identificacao__linha">
+        <label class="campo"><select id="raca"><option value="">Escolha…</option></select><span class="campo__rotulo">Raça</span></label>
+        <label class="campo"><select id="origem"><option value="">Escolha…</option></select><span class="campo__rotulo">Origem</span></label>
+        <div class="campo campo--classe">
+          <div class="campo__grupo">
+            <select id="classe" aria-label="Classe"><option value="">Escolha…</option></select>
+            <input id="nivel" type="number" value="1" min="1" max="20" inputmode="numeric" aria-label="Nível">
+          </div>
+          <span class="campo__rotulo">Classe &amp; Nível</span>
+        </div>
+        <label class="campo"><select id="divindade"><option value="">Nenhuma</option></select><span class="campo__rotulo">Divindade</span></label>
+      </div>
+    </header>
+
+    <!-- Atributos -->
+    <section class="atributos faixa" aria-label="Atributos">
+        <div class="atributo" data-atributo="for">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Força">FOR</button>
+          <output class="atributo__mod" aria-label="Modificador de Força">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Força">
+        </div>
+        <div class="atributo" data-atributo="des">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Destreza">DES</button>
+          <output class="atributo__mod" aria-label="Modificador de Destreza">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Destreza">
+        </div>
+        <div class="atributo" data-atributo="con">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Constituição">CON</button>
+          <output class="atributo__mod" aria-label="Modificador de Constituição">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Constituição">
+        </div>
+        <div class="atributo" data-atributo="int">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Inteligência">INT</button>
+          <output class="atributo__mod" aria-label="Modificador de Inteligência">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Inteligência">
+        </div>
+        <div class="atributo" data-atributo="sab">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Sabedoria">SAB</button>
+          <output class="atributo__mod" aria-label="Modificador de Sabedoria">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Sabedoria">
+        </div>
+        <div class="atributo" data-atributo="car">
+          <button type="button" class="atributo__nome btn-rolar" data-rolagem="atributo" title="Rolar Carisma">CAR</button>
+          <output class="atributo__mod" aria-label="Modificador de Carisma">0</output>
+          <input class="atributo__valor" type="number" value="10" min="0" max="99" inputmode="numeric" aria-label="Valor de Carisma">
+        </div>
+    </section>
+
+    <!-- PV e PM -->
+    <section class="recursos faixa" aria-label="Pontos de vida e mana">
+      <div class="recurso" data-recurso="pv">
+        <h2 class="recurso__titulo">Pontos de Vida</h2>
+        <label class="recurso__max"><input id="pv-max" type="number" value="0" min="0" inputmode="numeric"><span>Máximos</span></label>
+        <label class="recurso__atual"><input id="pv-atual" type="number" value="0" inputmode="numeric"><span>Atuais</span></label>
+      </div>
+      <div class="recurso" data-recurso="pm">
+        <h2 class="recurso__titulo">Pontos de Mana</h2>
+        <label class="recurso__max"><input id="pm-max" type="number" value="0" min="0" inputmode="numeric"><span>Máximos</span></label>
+        <label class="recurso__atual"><input id="pm-atual" type="number" value="0" inputmode="numeric"><span>Atuais</span></label>
+      </div>
+    </section>
+
+    <!-- Ataques -->
+    <section class="painel ataques faixa" aria-label="Ataques">
+      <div class="tabela-cabecalho ataques__cabecalho">
+        <h2 class="painel__titulo painel__titulo--inline">Ataques</h2>
+        <span>Teste de Ataque</span><span>Dano</span><span>Crítico</span><span>Tipo</span><span>Alcance</span><span></span>
+      </div>
+      <div class="ataques__lista">
+          <div class="ataque linha-tabela" data-indice="1">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 1"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 1"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 1">
+                <button type="button" class="dano__mod" popovertarget="ataque-1-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 1"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 1"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 1"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 1"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 1" aria-label="Rolar ataque 1">🎲</button>
+            <div class="janela" id="ataque-1-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 1"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-1-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+          <div class="ataque linha-tabela" data-indice="2">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 2"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 2"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 2">
+                <button type="button" class="dano__mod" popovertarget="ataque-2-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 2"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 2"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 2"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 2"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 2" aria-label="Rolar ataque 2">🎲</button>
+            <div class="janela" id="ataque-2-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 2"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-2-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+          <div class="ataque linha-tabela" data-indice="3">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 3"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 3"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 3">
+                <button type="button" class="dano__mod" popovertarget="ataque-3-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 3"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 3"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 3"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 3"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 3" aria-label="Rolar ataque 3">🎲</button>
+            <div class="janela" id="ataque-3-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 3"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-3-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+          <div class="ataque linha-tabela" data-indice="4">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 4"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 4"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 4">
+                <button type="button" class="dano__mod" popovertarget="ataque-4-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 4"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 4"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 4"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 4"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 4" aria-label="Rolar ataque 4">🎲</button>
+            <div class="janela" id="ataque-4-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 4"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-4-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+          <div class="ataque linha-tabela" data-indice="5">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 5"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 5"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 5">
+                <button type="button" class="dano__mod" popovertarget="ataque-5-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 5"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 5"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 5"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 5"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 5" aria-label="Rolar ataque 5">🎲</button>
+            <div class="janela" id="ataque-5-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 5"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-5-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+          <div class="ataque linha-tabela" data-indice="6">
+            <label class="celula celula--nome" data-rotulo="Ataque"><input class="ataque__nome" type="text" aria-label="Ataque 6"></label>
+            <label class="celula celula--teste" data-rotulo="Teste de Ataque"><input class="ataque__teste" type="text" aria-label="Teste de Ataque 6"></label>
+            <div class="celula celula--dano" data-rotulo="Dano">
+              <div class="dano">
+                <input class="ataque__dano" type="text" placeholder="1d6" aria-label="Dados de dano do ataque 6">
+                <button type="button" class="dano__mod" popovertarget="ataque-6-mod-dano" title="Modificador de dano" aria-label="Modificador de dano do ataque 6"></button>
+              </div>
+            </div>
+            <label class="celula celula--critico" data-rotulo="Crítico"><input class="ataque__critico" type="text" aria-label="Crítico 6"></label>
+            <label class="celula celula--tipo" data-rotulo="Tipo"><input class="ataque__tipo" type="text" aria-label="Tipo 6"></label>
+            <label class="celula celula--alcance" data-rotulo="Alcance"><input class="ataque__alcance" type="text" aria-label="Alcance 6"></label>
+            <button type="button" class="ataque__rolar btn-rolar btn-icone" data-rolagem="ataque" title="Rolar ataque 6" aria-label="Rolar ataque 6">🎲</button>
+            <div class="janela" id="ataque-6-mod-dano" popover>
+              <h3 class="janela__titulo">Modificador de dano</h3>
+              <label class="janela__campo"><span class="mini-rotulo">Atributo</span><select class="ataque__dano-atributo" aria-label="Atributo somado ao dano do ataque 6"><option value="for" selected>Força</option><option value="des">Destreza</option><option value="con">Constituição</option><option value="int">Inteligência</option><option value="sab">Sabedoria</option><option value="car">Carisma</option></select></label>
+              <label class="janela__opcao"><input class="ataque__dano-usar" type="checkbox" checked> Somar ao dano</label>
+              <p class="janela__dica">No campo Dano, escreva só os dados (ex.: 1d8). O modificador escolhido aqui entra na rolagem.</p>
+              <button type="button" class="janela__ok" popovertarget="ataque-6-mod-dano" popovertargetaction="hide">OK</button>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Defesa -->
+    <section class="defesa faixa" aria-label="Defesa">
+      <div class="defesa__escudo">
+        <span class="defesa__titulo">Defesa</span>
+        <output id="defesa-total" class="defesa__total">10</output>
+      </div>
+      <div class="defesa__conta">
+        <span class="defesa__base">=10</span>
+        <div class="defesa__termos">
+          <div class="defesa__termo defesa__termo--atr">
+            <span class="mini-rotulo"><input id="defesa-usa-atributo" type="checkbox" checked aria-label="Somar atributo na Defesa"> Mod. de</span>
+            <select class="defesa__atributo" aria-label="Atributo da Defesa"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+          </div>
+          <span class="sinal">+</span>
+          <div class="defesa__termo"><span class="mini-rotulo">Bônus de Armadura</span><output id="defesa-armadura" class="campo-calc">0</output></div>
+          <span class="sinal">+</span>
+          <div class="defesa__termo"><span class="mini-rotulo">Bônus de Escudo</span><output id="defesa-escudo" class="campo-calc">0</output></div>
+          <span class="sinal">+</span>
+          <div class="defesa__termo"><span class="mini-rotulo">Outros</span><input id="defesa-outros" type="number" value="0" inputmode="numeric"></div>
+        </div>
+        <div class="defesa__penalidade">
+          <span class="mini-rotulo">Penalidade de Armadura</span>
+          <output id="penalidade-armadura-total" class="campo-calc">0</output>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proficiências -->
+    <section class="painel proficiencias faixa" aria-label="Proficiências">
+      <h2 class="painel__titulo painel__titulo--centro">Proficiências</h2>
+      <textarea id="proficiencias" rows="5" aria-label="Proficiências"></textarea>
+    </section>
+
+    <!-- Armadura & Escudo -->
+    <section class="painel equipamento-defesa faixa" aria-label="Armadura e escudo">
+      <div class="tabela-cabecalho equipamento-defesa__cabecalho">
+        <h2 class="painel__titulo painel__titulo--inline">Armadura &amp; Escudo</h2>
+        <span>Defesa</span><span>Penalidade</span>
+      </div>
+      <div class="protecao" data-protecao="armadura">
+        <input class="protecao__nome" type="text" placeholder="Armadura" aria-label="Armadura">
+        <input class="protecao__defesa" type="number" value="0" inputmode="numeric" aria-label="Defesa da armadura">
+        <input class="protecao__penalidade" type="number" value="0" inputmode="numeric" aria-label="Penalidade da armadura">
+      </div>
+      <div class="protecao" data-protecao="escudo">
+        <input class="protecao__nome" type="text" placeholder="Escudo" aria-label="Escudo">
+        <input class="protecao__defesa" type="number" value="0" inputmode="numeric" aria-label="Defesa do escudo">
+        <input class="protecao__penalidade" type="number" value="0" inputmode="numeric" aria-label="Penalidade do escudo">
+      </div>
+    </section>
+
+    <!-- Tamanho -->
+    <section class="painel tamanho faixa" aria-label="Tamanho">
+      <h2 class="painel__titulo painel__titulo--inline">Tamanho</h2>
+      <select id="tamanho" aria-label="Tamanho">
+        <option value="minusculo">Minúsculo</option>
+        <option value="pequeno">Pequeno</option>
+        <option value="medio" selected>Médio</option>
+        <option value="grande">Grande</option>
+        <option value="enorme">Enorme</option>
+        <option value="colossal">Colossal</option>
+      </select>
+      <div class="tamanho__mods" title="Modificador de Furtividade / Modificador de manobras">
+        <output id="tamanho-furtividade" aria-label="Modificador de Furtividade">0</output>
+        <span>/</span>
+        <output id="tamanho-manobra" aria-label="Modificador de manobras">0</output>
+      </div>
+    </section>
+
+    <!-- XP e Deslocamento -->
+    <section class="painel linha-simples xp faixa">
+      <label><span class="painel__titulo painel__titulo--inline">Pontos de Experiência</span><input id="xp" type="number" value="0" min="0" inputmode="numeric"></label>
+    </section>
+    <section class="painel linha-simples deslocamento faixa">
+      <label><span class="painel__titulo painel__titulo--inline">Deslocamento</span><input id="deslocamento" type="text" placeholder="9m"></label>
+    </section>
+
+    <!-- Perícias -->
+    <section class="painel pericias" aria-label="Perícias">
+      <div class="pericias__cabecalho">
+        <h2 class="painel__titulo painel__titulo--inline">Perícias</h2>
+        <span>Total</span><span></span><span>½ do Nível</span><span></span><span>Mod. de Atributo</span><span></span><span>Treino</span><span></span><span>Outros</span>
+      </div>
+      <ul class="pericias__lista">
+          <li class="pericia" data-pericia="acrobacia" data-atributo-padrao="des" data-penalidade-armadura>
+            <input class="pericia__treinada" type="checkbox" aria-label="Acrobacia treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Acrobacia">Acrobacia</button><sup class="marca" title="Penalidade de armadura">✢</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Acrobacia">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Acrobacia"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Acrobacia">
+          </li>
+          <li class="pericia" data-pericia="adestramento" data-atributo-padrao="car" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Adestramento treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Adestramento">Adestramento</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Adestramento">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Adestramento"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Adestramento">
+          </li>
+          <li class="pericia" data-pericia="atletismo" data-atributo-padrao="for">
+            <input class="pericia__treinada" type="checkbox" aria-label="Atletismo treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Atletismo">Atletismo</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Atletismo">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Atletismo"><option value="for" selected>For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Atletismo">
+          </li>
+          <li class="pericia" data-pericia="atuacao" data-atributo-padrao="car">
+            <input class="pericia__treinada" type="checkbox" aria-label="Atuação treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Atuação">Atuação</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Atuação">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Atuação"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Atuação">
+          </li>
+          <li class="pericia" data-pericia="cavalgar" data-atributo-padrao="des">
+            <input class="pericia__treinada" type="checkbox" aria-label="Cavalgar treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Cavalgar">Cavalgar</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Cavalgar">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Cavalgar"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Cavalgar">
+          </li>
+          <li class="pericia" data-pericia="conhecimento" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Conhecimento treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Conhecimento">Conhecimento</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Conhecimento">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Conhecimento"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Conhecimento">
+          </li>
+          <li class="pericia" data-pericia="cura" data-atributo-padrao="sab">
+            <input class="pericia__treinada" type="checkbox" aria-label="Cura treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Cura">Cura</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Cura">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Cura"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Cura">
+          </li>
+          <li class="pericia" data-pericia="diplomacia" data-atributo-padrao="car">
+            <input class="pericia__treinada" type="checkbox" aria-label="Diplomacia treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Diplomacia">Diplomacia</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Diplomacia">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Diplomacia"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Diplomacia">
+          </li>
+          <li class="pericia" data-pericia="enganacao" data-atributo-padrao="car">
+            <input class="pericia__treinada" type="checkbox" aria-label="Enganação treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Enganação">Enganação</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Enganação">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Enganação"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Enganação">
+          </li>
+          <li class="pericia" data-pericia="fortitude" data-atributo-padrao="con">
+            <input class="pericia__treinada" type="checkbox" aria-label="Fortitude treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Fortitude">Fortitude</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Fortitude">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Fortitude"><option value="for">For</option><option value="des">Des</option><option value="con" selected>Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Fortitude">
+          </li>
+          <li class="pericia" data-pericia="furtividade" data-atributo-padrao="des" data-penalidade-armadura>
+            <input class="pericia__treinada" type="checkbox" aria-label="Furtividade treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Furtividade">Furtividade</button><sup class="marca" title="Penalidade de armadura">✢</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Furtividade">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Furtividade"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Furtividade">
+          </li>
+          <li class="pericia" data-pericia="guerra" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Guerra treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Guerra">Guerra</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Guerra">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Guerra"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Guerra">
+          </li>
+          <li class="pericia" data-pericia="iniciativa" data-atributo-padrao="des">
+            <input class="pericia__treinada" type="checkbox" aria-label="Iniciativa treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Iniciativa">Iniciativa</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Iniciativa">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Iniciativa"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Iniciativa">
+          </li>
+          <li class="pericia" data-pericia="intimidacao" data-atributo-padrao="car">
+            <input class="pericia__treinada" type="checkbox" aria-label="Intimidação treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Intimidação">Intimidação</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Intimidação">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Intimidação"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Intimidação">
+          </li>
+          <li class="pericia" data-pericia="intuicao" data-atributo-padrao="sab">
+            <input class="pericia__treinada" type="checkbox" aria-label="Intuição treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Intuição">Intuição</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Intuição">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Intuição"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Intuição">
+          </li>
+          <li class="pericia" data-pericia="investigacao" data-atributo-padrao="int">
+            <input class="pericia__treinada" type="checkbox" aria-label="Investigação treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Investigação">Investigação</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Investigação">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Investigação"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Investigação">
+          </li>
+          <li class="pericia" data-pericia="jogatina" data-atributo-padrao="car" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Jogatina treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Jogatina">Jogatina</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Jogatina">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Jogatina"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car" selected>Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Jogatina">
+          </li>
+          <li class="pericia" data-pericia="ladinagem" data-atributo-padrao="des" data-penalidade-armadura data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Ladinagem treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Ladinagem">Ladinagem</button><sup class="marca" title="Penalidade de armadura">✢</sup><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Ladinagem">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Ladinagem"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Ladinagem">
+          </li>
+          <li class="pericia" data-pericia="luta" data-atributo-padrao="for">
+            <input class="pericia__treinada" type="checkbox" aria-label="Luta treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Luta">Luta</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Luta">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Luta"><option value="for" selected>For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Luta">
+          </li>
+          <li class="pericia" data-pericia="misticismo" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Misticismo treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Misticismo">Misticismo</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Misticismo">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Misticismo"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Misticismo">
+          </li>
+          <li class="pericia" data-pericia="nobreza" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Nobreza treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Nobreza">Nobreza</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Nobreza">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Nobreza"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Nobreza">
+          </li>
+          <li class="pericia" data-pericia="oficio-1" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Ofício 1 treinada">
+            <span class="pericia__nome pericia__nome--oficio"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Ofício 1">Ofício</button><sup class="marca" title="Somente treinado">*</sup>
+              <input class="pericia__especialidade" type="text" placeholder="(qual?)" aria-label="Especialidade do Ofício 1"></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Ofício 1">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Ofício 1"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Ofício 1">
+          </li>
+          <li class="pericia" data-pericia="oficio-2" data-atributo-padrao="int" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Ofício 2 treinada">
+            <span class="pericia__nome pericia__nome--oficio"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Ofício 2">Ofício</button><sup class="marca" title="Somente treinado">*</sup>
+              <input class="pericia__especialidade" type="text" placeholder="(qual?)" aria-label="Especialidade do Ofício 2"></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Ofício 2">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Ofício 2"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Ofício 2">
+          </li>
+          <li class="pericia" data-pericia="percepcao" data-atributo-padrao="sab">
+            <input class="pericia__treinada" type="checkbox" aria-label="Percepção treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Percepção">Percepção</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Percepção">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Percepção"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Percepção">
+          </li>
+          <li class="pericia" data-pericia="pilotagem" data-atributo-padrao="des" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Pilotagem treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Pilotagem">Pilotagem</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Pilotagem">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Pilotagem"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Pilotagem">
+          </li>
+          <li class="pericia" data-pericia="pontaria" data-atributo-padrao="des">
+            <input class="pericia__treinada" type="checkbox" aria-label="Pontaria treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Pontaria">Pontaria</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Pontaria">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Pontaria"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Pontaria">
+          </li>
+          <li class="pericia" data-pericia="reflexos" data-atributo-padrao="des">
+            <input class="pericia__treinada" type="checkbox" aria-label="Reflexos treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Reflexos">Reflexos</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Reflexos">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Reflexos"><option value="for">For</option><option value="des" selected>Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Reflexos">
+          </li>
+          <li class="pericia" data-pericia="religiao" data-atributo-padrao="sab" data-somente-treinado>
+            <input class="pericia__treinada" type="checkbox" aria-label="Religião treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Religião">Religião</button><sup class="marca" title="Somente treinado">*</sup></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Religião">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Religião"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Religião">
+          </li>
+          <li class="pericia" data-pericia="sobrevivencia" data-atributo-padrao="sab">
+            <input class="pericia__treinada" type="checkbox" aria-label="Sobrevivência treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Sobrevivência">Sobrevivência</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Sobrevivência">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Sobrevivência"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Sobrevivência">
+          </li>
+          <li class="pericia" data-pericia="vontade" data-atributo-padrao="sab">
+            <input class="pericia__treinada" type="checkbox" aria-label="Vontade treinada">
+            <span class="pericia__nome"><button type="button" class="btn-rolar" data-rolagem="pericia" title="Rolar Vontade">Vontade</button></span>
+            <output class="pericia__total campo-calc" aria-label="Total de Vontade">0</output>
+            <span class="sinal">=</span>
+            <output class="pericia__meio-nivel campo-calc" aria-label="Metade do nível">0</output>
+            <span class="sinal">+</span>
+            <select class="pericia__atributo" aria-label="Atributo de Vontade"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab" selected>Sab</option><option value="car">Car</option></select>
+            <span class="sinal">+</span>
+            <output class="pericia__treino campo-calc" aria-label="Bônus de treino">0</output>
+            <span class="sinal">+</span>
+            <input class="pericia__outros" type="number" value="0" inputmode="numeric" aria-label="Outros bônus de Vontade">
+          </li>
+      </ul>
+      <p class="pericias__legenda"><span>✢ Penalidade de armadura.</span> <span>* Somente treinado.</span></p>
+    </section>
+
+    <!-- Equipamento -->
+    <section class="painel equipamento" aria-label="Equipamento">
+      <h2 class="painel__titulo painel__titulo--aba">Equipamento</h2>
+      <div class="equipamento__colunas">
+        <div class="equipamento__coluna">
+          <div class="equipamento__cabecalho"><span>Item</span><span>Peso</span></div>
+          <ul class="equipamento__lista">
+            <li class="item" data-indice="1">
+              <input class="item__nome" type="text" aria-label="Item 1">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 1">
+            </li>
+            <li class="item" data-indice="2">
+              <input class="item__nome" type="text" aria-label="Item 2">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 2">
+            </li>
+            <li class="item" data-indice="3">
+              <input class="item__nome" type="text" aria-label="Item 3">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 3">
+            </li>
+            <li class="item" data-indice="4">
+              <input class="item__nome" type="text" aria-label="Item 4">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 4">
+            </li>
+            <li class="item" data-indice="5">
+              <input class="item__nome" type="text" aria-label="Item 5">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 5">
+            </li>
+            <li class="item" data-indice="6">
+              <input class="item__nome" type="text" aria-label="Item 6">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 6">
+            </li>
+            <li class="item" data-indice="7">
+              <input class="item__nome" type="text" aria-label="Item 7">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 7">
+            </li>
+            <li class="item" data-indice="8">
+              <input class="item__nome" type="text" aria-label="Item 8">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 8">
+            </li>
+          </ul>
+        </div>
+        <div class="equipamento__coluna">
+          <div class="equipamento__cabecalho"><span>Item</span><span>Peso</span></div>
+          <ul class="equipamento__lista">
+            <li class="item" data-indice="9">
+              <input class="item__nome" type="text" aria-label="Item 9">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 9">
+            </li>
+            <li class="item" data-indice="10">
+              <input class="item__nome" type="text" aria-label="Item 10">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 10">
+            </li>
+            <li class="item" data-indice="11">
+              <input class="item__nome" type="text" aria-label="Item 11">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 11">
+            </li>
+            <li class="item" data-indice="12">
+              <input class="item__nome" type="text" aria-label="Item 12">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 12">
+            </li>
+            <li class="item" data-indice="13">
+              <input class="item__nome" type="text" aria-label="Item 13">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 13">
+            </li>
+            <li class="item" data-indice="14">
+              <input class="item__nome" type="text" aria-label="Item 14">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 14">
+            </li>
+            <li class="item" data-indice="15">
+              <input class="item__nome" type="text" aria-label="Item 15">
+              <input class="item__peso" type="number" value="0.00" step="0.01" min="0" inputmode="decimal" aria-label="Peso do item 15">
+            </li>
+          </ul>
+          <p class="equipamento__aviso">Se a sua Carga Total (1º valor) estiver maior que a Carga Máxima (2º valor), considere uma Penalidade de Armadura de -2 nas perícias devidas e reduza seu Deslocamento em 3m.</p>
+          <div class="equipamento__rodape">
+            <div class="carga">
+              <div class="carga__valores"><output id="carga-total">0.00</output><small>de</small><output id="carga-maxima">30</output></div>
+              <span class="mini-rotulo">Carga Máxima<br>(3x Força)</span>
+            </div>
+            <div class="carga">
+              <div class="carga__valores"><output id="carga-levantar">100</output></div>
+              <span class="mini-rotulo">Levantar<br>(até 10x Força)</span>
+            </div>
+            <div class="dinheiro">
+              <label><span>T$:</span><input id="tibares" type="number" value="0" min="0" inputmode="numeric"></label>
+              <label><span>TO:</span><input id="tibares-ouro" type="number" value="0" min="0" inputmode="numeric"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- ===================== PÁGINA 2 ===================== -->
+  <section class="pagina pagina--2" aria-label="Página 2">
+
+    <section class="painel descricao faixa">
+      <h2 class="painel__titulo painel__titulo--centro">Descrição</h2>
+      <textarea id="descricao" rows="7" aria-label="Descrição"></textarea>
+    </section>
+
+    <section class="painel hab-raca faixa">
+      <h2 class="painel__titulo painel__titulo--centro">Habilidades de Raça e Origem</h2>
+      <textarea id="habilidades-raca-origem" rows="7" aria-label="Habilidades de raça e origem"></textarea>
+    </section>
+
+    <section class="painel hab-classe faixa">
+      <h2 class="painel__titulo painel__titulo--centro">Habilidades de Classe e Poderes</h2>
+      <textarea id="habilidades-classe" rows="14" aria-label="Habilidades de classe e poderes"></textarea>
+    </section>
+
+    <section class="painel magias">
+      <h2 class="painel__titulo painel__titulo--aba">Magias</h2>
+      <div class="magias__config">
+        <label><span class="mini-rotulo">Atributo-chave</span><select class="magias__atributo" aria-label="Atributo-chave das magias"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int" selected>Int</option><option value="sab">Sab</option><option value="car">Car</option></select></label>
+        <label><span class="mini-rotulo">Mod</span><output id="magias-mod" class="campo-calc">0</output></label>
+        <label><span class="mini-rotulo">Teste de Resistência</span><output id="magias-cd" class="campo-calc">10</output></label>
+        <small class="magias__formula">(10 + ½ nível + mod. atributo-chave)</small>
+      </div>
+      <div class="tabela-cabecalho magias__cabecalho">
+        <span>Magia</span><span>Escola</span><span>Execução</span><span>Alcance</span><span>Área</span><span>Duração</span><span>Resistência</span><span>Efeito</span>
+      </div>
+      <div class="magias__lista">
+          <div class="magia linha-tabela" data-indice="1"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 1"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 1"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 1"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 1"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 1"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 1"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 1"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 1"></label></div>
+          <div class="magia linha-tabela" data-indice="2"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 2"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 2"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 2"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 2"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 2"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 2"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 2"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 2"></label></div>
+          <div class="magia linha-tabela" data-indice="3"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 3"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 3"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 3"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 3"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 3"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 3"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 3"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 3"></label></div>
+          <div class="magia linha-tabela" data-indice="4"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 4"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 4"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 4"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 4"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 4"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 4"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 4"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 4"></label></div>
+          <div class="magia linha-tabela" data-indice="5"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 5"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 5"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 5"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 5"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 5"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 5"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 5"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 5"></label></div>
+          <div class="magia linha-tabela" data-indice="6"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 6"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 6"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 6"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 6"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 6"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 6"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 6"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 6"></label></div>
+          <div class="magia linha-tabela" data-indice="7"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 7"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 7"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 7"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 7"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 7"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 7"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 7"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 7"></label></div>
+          <div class="magia linha-tabela" data-indice="8"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 8"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 8"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 8"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 8"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 8"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 8"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 8"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 8"></label></div>
+          <div class="magia linha-tabela" data-indice="9"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 9"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 9"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 9"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 9"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 9"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 9"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 9"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 9"></label></div>
+          <div class="magia linha-tabela" data-indice="10"><label class="celula celula--nome" data-rotulo="Magia"><input class="magia__nome" type="text" aria-label="Magia 10"></label><label class="celula celula--escola" data-rotulo="Escola"><input class="magia__escola" type="text" aria-label="Escola 10"></label><label class="celula celula--execucao" data-rotulo="Execução"><input class="magia__execucao" type="text" aria-label="Execução 10"></label><label class="celula celula--alcance" data-rotulo="Alcance"><input class="magia__alcance" type="text" aria-label="Alcance 10"></label><label class="celula celula--area" data-rotulo="Área"><input class="magia__area" type="text" aria-label="Área 10"></label><label class="celula celula--duracao" data-rotulo="Duração"><input class="magia__duracao" type="text" aria-label="Duração 10"></label><label class="celula celula--resistencia" data-rotulo="Resistência"><input class="magia__resistencia" type="text" aria-label="Resistência 10"></label><label class="celula celula--efeito" data-rotulo="Efeito"><input class="magia__efeito" type="text" aria-label="Efeito 10"></label></div>
+      </div>
+    </section>
+
+    <section class="painel anotacoes">
+      <h2 class="painel__titulo painel__titulo--aba">Anotações</h2>
+      <p class="anotacoes__dica">Histórico, aliados, tesouros etc.</p>
+      <textarea id="anotacoes" rows="10" aria-label="Anotações"></textarea>
+    </section>
+  </section>
+
+</main>
+</body>
+</html>
