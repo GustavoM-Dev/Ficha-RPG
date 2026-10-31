@@ -37,6 +37,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 body {
   margin: 0;
@@ -51,8 +52,9 @@ body {
   background-attachment: fixed;
 }
 
+[hidden] { display: none !important; }   /* o JS mostra/esconde avisos com o atributo hidden */
 ul { list-style: none; margin: 0; padding: 0; }
-h1, h2, p { margin: 0; }
+h1, h2, h3, p { margin: 0; }
 
 input, select, textarea, button, output {
   font: inherit;
@@ -238,7 +240,7 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 }
 .janela__opcao { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .janela__dica { font-size: 12.5px; color: var(--tinta-suave); line-height: 1.35; }
-.janela__ok {
+.janela__ok, .adicionar__botao {
   justify-self: end;
   padding: 5px 18px;
   border: 0;
@@ -250,7 +252,58 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
   letter-spacing: .06em;
   cursor: pointer;
 }
-.janela__ok:hover { background: var(--vermelho-escuro); }
+.janela__ok:hover, .adicionar__botao:hover { background: var(--vermelho-escuro); }
+
+/* Lista vazia: mostra a dica de data-vazio (o JS só insere os itens) */
+[data-vazio]:empty::before {
+  content: attr(data-vazio);
+  display: block;
+  padding: 6px 2px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--tinta-suave);
+}
+
+/* Escolher + Adicionar (Efeitos, Poderes) */
+.adicionar { display: flex; gap: 6px; min-width: 0; }
+.adicionar__escolha {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 8px;
+  border: 2px solid var(--tinta);
+  border-radius: 4px;
+  background-color: var(--branco);
+  font-size: 13.5px;
+}
+.adicionar__botao { padding: 4px 12px; font-size: 12px; text-transform: uppercase; }
+
+/* Etiquetas removíveis (efeitos acumulados) */
+.etiquetas { display: flex; flex-wrap: wrap; gap: 6px; }
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px 3px 10px;
+  border: 1.5px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--papel-claro);
+  font-size: 13.5px;
+  line-height: 1.2;
+}
+.etiqueta__remover {
+  flex: none;
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--tinta-suave);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.etiqueta__remover:hover { background: rgba(168,40,44,.12); color: var(--vermelho); }
 
 /* Linhas de tabela (Ataques, Magias) */
 .tabela-cabecalho {
@@ -264,10 +317,19 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 }
 .linha-tabela { display: grid; gap: 6px; align-items: end; }
 .celula { display: block; min-width: 0; }
-.celula input {
+.celula input, .celula select, .celula output {
+  display: block;
   width: 100%;
   padding: 6px 4px 3px;
   border-bottom: 1px solid var(--linha);
+}
+/* Valores vindos dos dados (ex.: magias): uma linha; o JS põe o texto completo em title */
+.celula output {
+  min-height: calc(1.25em + 10px);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 4. PÁGINA 1 ---------------------------------------------- */
@@ -325,6 +387,16 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
   color: var(--tinta-suave);
   padding-left: 4px;
 }
+.campo__rodape { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+/* Aviso de escolha pendente (ex.: benefícios da origem); leva até a lista */
+.campo__aviso {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--vermelho);
+  white-space: nowrap;
+}
+.campo__aviso::before { content: "● " / ""; font-size: .8em; }
+.campo__aviso:hover { color: var(--vermelho-escuro); }
 .campo--destaque input {
   font-family: var(--fonte-titulo);
   font-weight: 700;
@@ -466,6 +538,20 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
   font-weight: 700;
 }
 .recurso__atual input { color: var(--vermelho-escuro); }
+
+/* Efeitos ativos */
+.efeitos { display: grid; gap: 8px; }
+.efeitos__topo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.efeitos__topo .painel__titulo { font-size: 15px; }
+.efeitos__topo .adicionar { flex: 1 1 260px; max-width: 420px; margin-left: auto; }
+.efeito__resumo { font-size: 11.5px; color: var(--tinta-suave); }
+.efeito__resumo:empty { display: none; }
+/* Bônus e penalidades: cor + símbolo (não depende só da cor) */
+.efeito[data-tipo="bonus"] { background: var(--branco); }
+.efeito[data-tipo="bonus"] .efeito__nome::before { content: "▲ " / ""; font-size: .75em; }
+.efeito[data-tipo="penalidade"] { border-color: var(--vermelho); background: rgba(168,40,44,.07); }
+.efeito[data-tipo="penalidade"] .efeito__nome { color: var(--vermelho-escuro); }
+.efeito[data-tipo="penalidade"] .efeito__nome::before { content: "▼ " / ""; font-size: .75em; }
 
 /* Ataques */
 .ataques { display: flex; flex-direction: column; }
@@ -701,8 +787,12 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 .item { display: grid; grid-template-columns: 1fr 80px; gap: 10px; }
 .equipamento__cabecalho { font-size: 11.5px; color: var(--tinta-suave); }
 .equipamento__cabecalho span:last-child { text-align: right; padding-right: 6px; }
+.equipamento__cabecalho small { font-size: 10.5px; font-style: italic; }
 .item input { border-bottom: 1px solid var(--linha); padding: 6px 4px 3px; width: 100%; }
 .item__peso { text-align: right !important; padding-right: 6px !important; }
+/* Item adicionado automaticamente (ex.: a armadura escolhida); data-vinculo="armadura" | "escudo" … */
+.item[data-vinculo] { background: linear-gradient(to right, rgba(168,40,44,.07), transparent 70%); }
+.item[data-vinculo] .item__nome { font-style: italic; }
 .equipamento__aviso { font-size: 11px; color: var(--tinta-suave); margin: 12px 0 8px; line-height: 1.35; }
 .equipamento__rodape {
   display: grid;
@@ -724,7 +814,80 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 
 /* 5. PÁGINA 2 ---------------------------------------------- */
 .descricao, .hab-raca, .hab-classe { display: flex; flex-direction: column; }
-.descricao textarea, .hab-raca textarea, .hab-classe textarea { flex: 1; }
+.descricao textarea { flex: 1; }
+
+/* Habilidades de raça, origem e classe; poderes */
+.habilidades__grupo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--tinta);
+}
+.habilidades__titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.habilidades__grupo .adicionar { flex: 1 1 220px; margin-left: auto; }
+.habilidades { display: grid; }
+.habilidade { padding: 6px 2px; border-bottom: 1px dotted var(--linha); }
+.habilidade__cabecalho { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.habilidade__nome { font-size: 15px; font-weight: 700; font-variant: small-caps; letter-spacing: .02em; }
+.habilidade__marca {
+  margin-left: auto;
+  padding: 0 7px;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  background: var(--papel-claro);
+  color: var(--vermelho-escuro);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.habilidade__marca:empty { display: none; }
+.habilidade__cabecalho .etiqueta__remover { margin-left: auto; }
+.habilidade__marca:not(:empty) + .etiqueta__remover { margin-left: 0; }
+.habilidade__descricao { margin-top: 2px; font-size: 13px; line-height: 1.35; color: var(--tinta-suave); }
+.habilidade__descricao:empty { display: none; }
+.habilidade__escolha {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 1px solid var(--tinta);
+  color: var(--vermelho-escuro);
+  font-weight: 700;
+}
+/* Escolha ainda pendente */
+.habilidade--escolha:has(.habilidade__escolha option[value=""]:checked) { background: rgba(168,40,44,.06); }
+/* Contador de escolhas (ex.: "1 de 2"); data-completo quando o limite foi atingido */
+.contador {
+  margin-left: auto;
+  padding: 0 8px;
+  border: 1.5px solid var(--vermelho);
+  border-radius: 10px;
+  color: var(--vermelho);
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.contador[data-completo] { border-color: var(--tinta); color: var(--tinta); }
+
+/* Benefícios de origem: caixas de marcar */
+#habilidades-origem { scroll-margin-top: 24px; }
+.beneficio .habilidade__cabecalho { cursor: pointer; }
+.beneficio .habilidade__nome { font-weight: 500; }
+.beneficio:has(.beneficio__escolhido:checked) { background: rgba(168,40,44,.06); }
+.beneficio:has(.beneficio__escolhido:checked) .habilidade__nome { font-weight: 700; }
+.beneficio:has(.beneficio__escolhido:disabled:not(:checked)) { opacity: .5; }
+.beneficio:has(.beneficio__escolhido:disabled) .habilidade__cabecalho { cursor: not-allowed; }
+.beneficio[data-tipo="poder"] .habilidade__marca { color: var(--tinta); }
+
+/* Habilidade de nível acima do atual (se o JS optar por mostrá-la) */
+.habilidade[data-bloqueada] { opacity: .45; }
 
 .magias__config {
   display: flex;
@@ -754,11 +917,12 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 /* 6. LAYOUT DESKTOP --------------------------------------- */
 .pagina--1 {
   grid-template-columns: repeat(6, minmax(0, 1fr)) minmax(400px, 430px);
-  grid-template-rows: auto auto auto 1fr auto auto auto auto;
+  grid-template-rows: auto auto auto auto 1fr auto auto auto auto;
   grid-template-areas:
     "id   id   id   id   id   id   id"
     "atr  atr  atr  atr  atr  atr  per"
     "rec  rec  rec  rec  rec  rec  per"
+    "efe  efe  efe  efe  efe  efe  per"
     "atq  atq  atq  atq  atq  atq  per"
     "def  def  def  def  prof prof per"
     "arm  arm  arm  arm  tam  tam  per"
@@ -770,6 +934,7 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 .identificacao       { grid-area: id; }
 .atributos           { grid-area: atr; }
 .recursos            { grid-area: rec; }
+.efeitos             { grid-area: efe; }
 .ataques             { grid-area: atq; }
 .defesa              { grid-area: def; }
 .proficiencias       { grid-area: prof; }
@@ -808,6 +973,7 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
       "id   id   id   id   id   id"
       "atr  atr  atr  atr  atr  atr"
       "rec  rec  rec  rec  rec  rec"
+      "efe  efe  efe  efe  efe  efe"
       "def  def  def  def  prof prof"
       "atq  atq  atq  atq  atq  atq"
       "arm  arm  arm  arm  tam  tam"
@@ -857,6 +1023,7 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
     border-radius: 6px;
     background: #fbfaf8;
   }
+  .magia .celula output { white-space: normal; }   /* no cartão, o texto quebra em vez de cortar */
   .celula::before {
     content: attr(data-rotulo);
     display: block;
@@ -887,7 +1054,7 @@ input:focus, select:focus, textarea:focus { background-color: rgba(168, 40, 44, 
 
   .pagina--1 {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "id" "atr" "rec" "def" "atq" "arm" "tam" "xp" "des" "prof" "per" "eq";
+    grid-template-areas: "id" "atr" "rec" "efe" "def" "atq" "arm" "tam" "xp" "des" "prof" "per" "eq";
   }
 
   .identificacao__titulo { font-size: 28px; }
